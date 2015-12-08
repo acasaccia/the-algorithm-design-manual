@@ -133,7 +133,9 @@ int main( int argc, char * argv[] ) {
 		for (int j=0; j<winners_count; j++) {
 			std::cout << candidates[subroutine_results[j]] << std::endl;
 		}
-		std::cout << std::endl;
+		if (i+1 < cases_count) {
+			std::cout << std::endl;
+		}
 	}
 	
     return 0;
