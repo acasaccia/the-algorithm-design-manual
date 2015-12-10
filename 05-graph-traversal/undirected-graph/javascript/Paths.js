@@ -1,7 +1,6 @@
 "use strict";
 
-// find a path from v1 to v2
-// depth-first strategy
+
 module.exports = function Paths(graph, strategy) {
 
     strategy = strategy || 'DEPTH_FIRST';
@@ -9,8 +8,11 @@ module.exports = function Paths(graph, strategy) {
     if (strategy === 'DEPTH_FIRST') {
 
         return {
+
             from: function Paths_from(v1) {
+
                 return {
+
                     to: function Paths_from_to(v2) {
 
                         var visited = [];
@@ -51,16 +53,23 @@ module.exports = function Paths(graph, strategy) {
 
                         get_path(v2);
                         return path;
+
                     }
+
                 };
+
             }
+
         };
 
     } else {
 
         return {
+
             from: function Paths_from(v1) {
+
                 return {
+
                     to: function Paths_from_to(v2) {
 
                         var to_root = [];
@@ -98,9 +107,13 @@ module.exports = function Paths(graph, strategy) {
                         get_path(v2);
 
                         return path;
+
                     }
+
                 };
+
             }
+
         };
 
     }
