@@ -75,4 +75,9 @@ module.exports = function BST() {
         }
     };
 
+    this.delete = function(key) {
+        // @todo: implement with hibbard deletion
+        return false;
+    };
+
 };
