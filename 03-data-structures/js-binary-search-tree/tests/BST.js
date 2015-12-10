@@ -1,3 +1,5 @@
+"use strict";
+
 var BST = require('../BST.js');
 var assert = require('assert');
 

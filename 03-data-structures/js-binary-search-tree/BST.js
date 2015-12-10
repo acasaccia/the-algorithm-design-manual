@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = function BST() {
 
     this.search = function(key) {
@@ -71,13 +73,6 @@ module.exports = function BST() {
         } else {
             return this.left.min();
         }
-    };
-
-    this.delete = function(key) {
-        // hibbard deletion:
-        // no childs
-        // 1 child
-        // 2 childs
     };
 
 };
