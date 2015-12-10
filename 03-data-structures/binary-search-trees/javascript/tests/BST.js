@@ -65,3 +65,9 @@ assert(by_surname.prev('J').value.surname === 'Fuller');
 assert(by_surname.prev('Z').value.surname === 'Watkins');
 assert(by_surname.prev('D').value.surname === 'Cobb');
 assert(by_surname.prev('A') === undefined);
+
+assert(by_surname.delete('Casaccia') === false);
+assert(by_surname.delete('Burke') === true);
+
+assert(by_surname.search('Casaccia') === undefined, "Can't find surname \"Casaccia\"");
+assert(by_surname.search('Burke') === undefined, "Can't find surname \"Burke\" after deletion");
