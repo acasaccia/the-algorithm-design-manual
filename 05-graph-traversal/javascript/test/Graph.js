@@ -44,3 +44,7 @@ adjacents = graph.getAdjacents(11);
 assert(adjacents.length === 2);
 
 assert(graph.getVertexesCount() === 13);
+
+graph = new Graph("input/undirected.txt");
+assert(graph.getVertexesCount() === 13);
+assert(graph.getEdgesCount() === 13);
