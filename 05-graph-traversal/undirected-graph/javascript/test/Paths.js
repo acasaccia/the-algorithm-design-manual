@@ -1,7 +1,8 @@
 "use strict";
 
 var Graph = require('../Graph.js');
-var Paths = require('../Paths.js');
+var DFSPath = require('../DFSPath.js');
+var BFSPath = require('../BFSPath.js');
 var assert = require('assert');
 
 var graph = new Graph(13);
@@ -26,20 +27,20 @@ edges.forEach(function(edge){
     graph.addEdge(edge[0], edge[1]);
 });
 
-var paths = new Paths(graph);
+var path = new DFSPath(graph);
 
-assert(paths.from(1).to(2).join(',') === '1,0,2');
-assert(paths.from(3).to(2) !== undefined);
-assert(paths.from(1).to(12) === undefined);
-assert(paths.from(4).to(2) !== undefined);
-assert(paths.from(1).to(7) === undefined);
-assert(paths.from(8).to(9) === undefined);
+assert(path.from(1).to(2).join(',') === '1,0,2');
+assert(path.from(3).to(2) !== undefined);
+assert(path.from(1).to(12) === undefined);
+assert(path.from(4).to(2) !== undefined);
+assert(path.from(1).to(7) === undefined);
+assert(path.from(8).to(9) === undefined);
 
-var paths = new Paths(graph, 'BREADTH_FIRST');
+var path = new BFSPath(graph);
 
-assert(paths.from(1).to(2).join(',') === '1,0,2');
-assert(paths.from(3).to(2).join(',') === '3,5,0,2');
-assert(paths.from(1).to(12) === undefined);
-assert(paths.from(4).to(2).join(',') === '4,5,0,2' || paths.from(4).to(2).join(',') === '4,6,0,2');
-assert(paths.from(1).to(7) === undefined);
-assert(paths.from(8).to(9) === undefined);
+assert(path.from(1).to(2).join(',') === '1,0,2');
+assert(path.from(3).to(2).join(',') === '3,5,0,2');
+assert(path.from(1).to(12) === undefined);
+assert(path.from(4).to(2).join(',') === '4,5,0,2' || path.from(4).to(2).join(',') === '4,6,0,2');
+assert(path.from(1).to(7) === undefined);
+assert(path.from(8).to(9) === undefined);
