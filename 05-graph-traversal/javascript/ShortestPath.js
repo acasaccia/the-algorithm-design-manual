@@ -1,14 +1,14 @@
 "use strict";
 
-module.exports = function DFSPath(graph) {
+module.exports = function ShortestPath(graph) {
 
     return {
 
-        from: function Paths_from(v1) {
+        from: function ShortestPath_from(v1) {
 
             return {
 
-                to: function Paths_from_to(v2) {
+                to: function ShortestPath_from_to(v2) {
 
                     var visited = [];
                     var to_root = [];
@@ -18,13 +18,13 @@ module.exports = function DFSPath(graph) {
                         visited.push(false);
                     }
 
-                    var visit = function(n, prev) {
+                    var visit = function(n) {
                         visited[n] = true;
-                        to_root[n] = prev;
                         var adjacents = graph.getAdjacents(n);
                         for (var i=0; i<adjacents.length; i++) {
                             if (!visited[adjacents[i]]) {
-                                visit(adjacents[i], n);
+                                to_root[adjacents[i]] = n;
+                                visit(adjacents[i]);
                             }
                         }
                     };

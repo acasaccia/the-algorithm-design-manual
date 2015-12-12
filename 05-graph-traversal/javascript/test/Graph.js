@@ -1,7 +1,7 @@
 "use strict";
 
-var Graph = require('../Graph.js');
-var assert = require('assert');
+var Graph = require("../Graph.js");
+var assert = require("assert");
 
 var graph = new Graph(13);
 
@@ -30,9 +30,7 @@ edges.forEach(function(edge){
 
 assert(graph.getEdgesCount() === 13);
 
-var adjacents;
-
-adjacents = graph.getAdjacents(0);
+var adjacents = graph.getAdjacents(0);
 assert(adjacents.indexOf(1)>=0);
 assert(adjacents.indexOf(6)>=0);
 assert(adjacents.indexOf(4)<0);
