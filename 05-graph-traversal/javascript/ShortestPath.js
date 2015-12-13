@@ -10,43 +10,39 @@ module.exports = function ShortestPath(graph) {
 
                 to: function ShortestPath_from_to(v2) {
 
-                    var visited = [];
-                    var to_root = [];
-                    var vertex_count = graph.getVertexesCount();
-
-                    for (var i=1; i<=vertex_count; i++) {
-                        visited.push(false);
-                    }
+                    var to_root = {};
+                    var to_visit = [v1];
+                    var found = false;
 
                     var visit = function(n) {
-                        visited[n] = true;
+                        if (n === v2) {
+                            found = true;
+                        }
                         var adjacents = graph.getAdjacents(n);
                         for (var i=0; i<adjacents.length; i++) {
-                            if (!visited[adjacents[i]]) {
+                            if (!to_root[adjacents[i]]) {
                                 to_root[adjacents[i]] = n;
-                                visit(adjacents[i]);
+                                to_visit.push(adjacents[i]);
                             }
                         }
                     };
 
-                    visit(v1);
+                    while (to_visit.length && !found) {
+                        visit(to_visit.shift());
+                    }
 
-                    if (!visited[v2]) {
+                    if (!found) {
                         return;
                     }
 
-                    var path = [];
+                    var path = [v2];
+                    var next = v2;
 
-                    var get_path = function(n) {
-                        if (to_root[n] !== undefined) {
-                            path.unshift(to_root[n]);
-                            get_path(to_root[n]);
-                        }
-                    };
+                    while (next !== v1) {
+                        next = to_root[next];
+                        path.unshift(next);
+                    }
 
-                    path.unshift(v2);
-
-                    get_path(v2);
                     return path;
 
                 }
