@@ -52,7 +52,7 @@ function path(graph, initial, target) {
             next = to_root[next];
         }
         path.unshift(initial);
-        console.log("%j", path);
+        //console.log("%j", path);
         return path.length - 1;
     }
 
