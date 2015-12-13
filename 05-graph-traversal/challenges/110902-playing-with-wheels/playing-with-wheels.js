@@ -22,14 +22,9 @@ while (cases > 0) {
 function path(graph, initial, target) {
 
     var to_root = {};
-    var visited = {};
     var found = false;
 
     var visit = function(n) {
-        if (visited[n]) {
-            return;
-        }
-        visited[n] = true;
         if (n === target) {
             found = true;
         }
@@ -37,8 +32,8 @@ function path(graph, initial, target) {
         for (var i=0; i<adjacents.length; i++) {
             if (to_root[adjacents[i]] === undefined) {
                 to_root[adjacents[i]] = n;
+                to_visit.push(adjacents[i]);
             }
-            to_visit.push(adjacents[i]);
         }
     };
 
@@ -53,11 +48,11 @@ function path(graph, initial, target) {
         var path = [target];
         var next = to_root[target];
         while (next !== initial) {
-            path.push(next);
+            path.unshift(next);
             next = to_root[next];
         }
-        path.push(initial);
-        //console.log(path);
+        path.unshift(initial);
+        console.log("%j", path);
         return path.length - 1;
     }
 
