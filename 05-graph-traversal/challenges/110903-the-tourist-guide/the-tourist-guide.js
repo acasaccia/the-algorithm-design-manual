@@ -62,26 +62,22 @@ while (lines.length) {
 function WeightedGraph(vertexes_count) {
 
     var edges = [];
-    var weights = [];
 
     for (var i=0; i<vertexes_count; i++) {
-        edges.push([]);
-        weights.push({});
+        edges.push({});
     }
 
     this.addEdge = function(vertex_1, vertex_2, weight) {
-        edges[vertex_1].push(vertex_2);
-        edges[vertex_2].push(vertex_1);
-        weights[vertex_1][vertex_2] = weight;
-        weights[vertex_2][vertex_1] = weight;
+        edges[vertex_1][vertex_2] = weight;
+        edges[vertex_2][vertex_1] = weight;
     };
 
     this.getAdjacents = function(vertex) {
-        return edges[vertex];
+        return Object.keys(edges[vertex]);
     };
 
     this.getEdgeWeight = function(vertex_1, vertex_2) {
-        return weights[vertex_1][vertex_2];
+        return edges[vertex_1][vertex_2];
     }
 
 }
