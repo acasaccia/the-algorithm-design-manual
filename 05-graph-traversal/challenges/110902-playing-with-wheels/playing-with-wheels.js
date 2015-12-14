@@ -52,7 +52,9 @@ function path(graph, initial, target) {
             next = to_root[next];
         }
         path.unshift(initial);
-        //console.log("%j", path);
+        //console.log("%s", path.map(function(v){
+        //    return toPaddedString(v);
+        //}));
         return path.length - 1;
     }
 
@@ -62,18 +64,16 @@ function initializeGraph(forbidden) {
     var graph = new Graph(10000);
     var string, digit, neighbour;
     for (var i=0; i<10000; i++) {
-        if (!forbidden[i]) {
-            string = toPaddedString(i);
-            for (var j=0; j<4; j++) {
-                digit = string.charAt(j);
-                neighbour = getNeighbour(string, digit, j, +1);
-                if (!forbidden[neighbour]) {
-                    graph.addEdge(i, neighbour);
-                }
-                neighbour = getNeighbour(string, digit, j, -1);
-                if (!forbidden[neighbour]) {
-                    graph.addEdge(i, neighbour);
-                }
+        string = toPaddedString(i);
+        for (var j=0; j<4; j++) {
+            digit = string.charAt(j);
+            neighbour = getNeighbour(string, digit, j, +1);
+            if (!forbidden[neighbour]) {
+                graph.addEdge(i, neighbour);
+            }
+            neighbour = getNeighbour(string, digit, j, -1);
+            if (!forbidden[neighbour]) {
+                graph.addEdge(i, neighbour);
             }
         }
     }
@@ -115,13 +115,7 @@ function Graph(vertexes_count) {
     }
 
     this.addEdge = function(vertex_1, vertex_2) {
-        //console.log("Adding edge %s -> %s", toPaddedString(vertex_1), toPaddedString(vertex_2))
-        if (edges[vertex_1].indexOf(vertex_2) === -1) {
-            edges[vertex_1].push(vertex_2);
-        }
-        if (edges[vertex_2].indexOf(vertex_1) === -1) {
-            edges[vertex_2].push(vertex_1);
-        }
+        edges[vertex_1].push(vertex_2);
     };
 
     this.getAdjacents = function(vertex) {
