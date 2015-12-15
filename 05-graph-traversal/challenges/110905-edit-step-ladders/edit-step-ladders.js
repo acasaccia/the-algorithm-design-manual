@@ -1,4 +1,4 @@
-var debug = true;
+var debug = false;
 
 if (debug) console.time("parse");
 
@@ -12,46 +12,53 @@ var words = require("fs").readFileSync(process.argv[2], "utf-8")
 if (debug) console.timeEnd("parse");
 if (debug) console.time("pre-processing");
 
-var graph = new Graph(words.length);
+var words_length = words.length;
+var graph = new Graph(words_length);
 
-for (var i=0; i<words.length; i++) {
+for (var i=0; i<words_length; i++) {
 
     var candidate_neighbours = [];
     var tmp;
+    var word = words[i];
+    var word_array = word.split('');
+    var word_length = word.length;
 
-    for (var j=0; j<words[i].length; j++) {
+    for (var j=0; j<word_length; j++) {
 
-        // words resulting from deleting each letter
-        if (words[i].length>1) {
-            tmp = words[i].slice();
-            tmp = tmp.split('');
+        // words resulting from deleting each character
+        if (word_length>1) {
+            tmp = word_array.slice();
             tmp.splice(j, 1);
             candidate_neighbours.push(tmp.join(''));
         }
 
-        // words resulting from adding a letter in each position
-        tmp = words[i].slice();
-        tmp = tmp.split('');
+        // words resulting from adding a character in each position
+        tmp = word_array.slice();
         tmp.splice(j, 0, '.');
         candidate_neighbours.push(tmp.join(''));
 
-        // words resulting from changing a letter in each position
-        tmp = words[i].slice();
-        tmp = tmp.split('');
+        // words resulting from changing a character in each position
+        tmp = word_array.slice();
         tmp.splice(j, 1, '.');
         candidate_neighbours.push(tmp.join(''));
 
     }
 
-    candidate_neighbours.push(words[i] + '.');
+    // adding a letter at the end
+    candidate_neighbours.push(word + '.');
 
-    for (var j=0; j<candidate_neighbours.length; j++) {
-        var regex = new RegExp('^' + candidate_neighbours[j] + '$');
-        for (var k=i+1; k<words.length; k++) {
-            if (words[k].match(regex)) {
-                //console.log("%j -> %j", words[i], words[k]);
-                graph.addEdge(i, k);
-            }
+    var regex = new RegExp('^(?:' + candidate_neighbours.join('|') + ')$');
+    var compare_word;
+    var compare_word_length;
+
+    for (var k=i+1; k<words_length; k++) {
+        compare_word = words[k];
+        compare_word_length = compare_word.length;
+        if (compare_word_length <= word_length + 1 &&
+            compare_word_length >= word_length - 1 &&
+            compare_word.match(regex)) {
+            //console.log("%j -> %j", word, words[k]);
+            graph.addEdge(i, k);
         }
     }
 
@@ -60,7 +67,7 @@ for (var i=0; i<words.length; i++) {
 if (debug) console.timeEnd("pre-processing");
 if (debug) console.time("processing");
 
-var distance;
+var distance = {};
 
 var visit = function (v) {
     var adjacents = graph.getAdjacents(v);
@@ -74,16 +81,16 @@ var visit = function (v) {
 
 var max_distance = 0;
 
-for (var i=0; i<words.length; i++) {
+for (var i=0; i<words_length; i++) {
+    if (distance[i] === undefined) {
+        distance[i] = 0;
+        visit(i);
+    }
+}
 
-    distance = {};
-    distance[i] = 0;
-    visit(i);
-
-    for(var key in distance) {
-        if (distance[key] > max_distance) {
-            max_distance = distance[key];
-        }
+for(var key in distance) {
+    if (distance[key] > max_distance) {
+        max_distance = distance[key];
     }
 }
 
@@ -105,10 +112,6 @@ function Graph(vertexes_count) {
 
     this.getAdjacents = function(vertex) {
         return edges[vertex];
-    };
-
-    this.connected = function(vertex_1, vertex_2) {
-        return edges[vertex_1].indexOf(vertex_2) > -1;
     };
 
 }
