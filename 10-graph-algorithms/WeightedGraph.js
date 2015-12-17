@@ -91,8 +91,4 @@ function Edge(vertex_1, vertex_2, weight) {
         }
     };
 
-    this.weight = function() {
-        return this.weight;
-    };
-
 }
