@@ -61,7 +61,7 @@ module.exports = function WeightedGraph(vertexes_count_or_filename) {
             out_edges = this.getAdjacents(i);
             out_edges_length = out_edges.length;
             for (var j=0; j<out_edges_length; j++) {
-                if (!all_edges.indexOf(out_edges[j])) {
+                if (all_edges.indexOf(out_edges[j]) === -1) {
                     all_edges.push(out_edges[j]);
                 }
             }
