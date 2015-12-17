@@ -1,6 +1,6 @@
 "use strict";
 
-var WeightedGraph = require("../WeightedGraph.js");
+var WeightedGraph = require("./WeightedGraph.js");
 
 module.exports = function Kruskal(graph) {
 
@@ -23,7 +23,7 @@ module.exports = function Kruskal(graph) {
 
     while(!union_find.connected(vertex, other_vertex)) {
         union_find.union(vertex, other_vertex);
-        mst.addEdge(next_edge);
+        mst.addEdge(vertex, other_vertex, next_edge.weight());
         next_edge = edges.shift();
         vertex = next_edge.either();
         other_vertex = next_edge.other(vertex);
