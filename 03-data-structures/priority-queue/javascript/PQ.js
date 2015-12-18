@@ -52,7 +52,7 @@ module.exports = function PQ(comparison_function) {
 
     this.get = function() {
         if (binary_heap.length === 1) {
-            throw new Exception("Trying to get an item from empty queue");
+            throw new Error("Trying to get an item from empty queue");
         }
         var max = binary_heap[1];
         var last_item = binary_heap.pop();
@@ -75,4 +75,4 @@ module.exports = function PQ(comparison_function) {
         return (binary_heap.length - 1) === 0;
     };
 
-}
+};
