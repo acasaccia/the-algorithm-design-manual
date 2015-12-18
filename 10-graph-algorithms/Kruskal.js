@@ -1,6 +1,7 @@
 "use strict";
 
 var WeightedGraph = require("./WeightedGraph.js");
+var UnionFind = require("../03-data-structures/union-find/javascript/UnionFind.js");
 
 module.exports = function Kruskal(graph) {
 
@@ -33,28 +34,3 @@ module.exports = function Kruskal(graph) {
     return mst;
 
 };
-
-function UnionFind(size) {
-
-    var parent = [];
-
-    for (var i=0; i<size; i++) {
-        parent[i] = i;
-    }
-
-    var root = function(a) {
-        while (parent[a] !== a) {
-            a = parent[a];
-        }
-        return a;
-    };
-
-    this.connected = function(a, b) {
-        return root(a) === root(b);
-    };
-
-    this.union = function(a, b) {
-        parent[root(a)] = parent[root(b)];
-    };
-
-}
