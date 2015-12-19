@@ -1,7 +1,7 @@
 "use strict";
 
 var WeightedGraph = require("./WeightedGraph.js");
-var PriorityQueue = require("../03-data-structures/priority-queue/javascript/PQ.js");
+var IndexedPriorityQueue = require("../03-data-structures/IndexedPriorityQueue.js");
 
 module.exports = function PrimEager(graph) {
 
@@ -14,27 +14,30 @@ module.exports = function PrimEager(graph) {
         return priority[a] < priority[b];
     };
 
-    var pq = new PriorityQueue(comparison_function);
+    var pq = new IndexedPriorityQueue(comparison_function);
 
-    var adjacents = graph.getAdjacents(0);
     var mst_edges_count = vertex_count - 1;
-    var next_vertex, other_vertex, tmp_vertex;
-    var marked = { 0: true };
+    var adjacents, current_vertex, other_vertex;
+    var in_mst = { 0: true }, edge_to_mst = {};
     pq.insert(0);
 
     while (mst.getEdgesCount() < mst_edges_count) {
-        next_vertex = pq.get();
-        adjacents = graph.getAdjacents(next_vertex);
+        current_vertex = pq.get();
+        in_mst[current_vertex] = true;
+        mst.addEdge(current_vertex, edge_to_mst[current_vertex].other(current_vertex), edge_to_mst[current_vertex].weight);
+        adjacents = graph.getAdjacents(current_vertex);
         adjacents.forEach(function(adjacent){
-            other_vertex = adjacent.other(next_vertex);
-            if (!marked[other_vertex]) {
-                marked[other_vertex] = true;
+            other_vertex = adjacent.other(current_vertex);
+            if (!in_mst[other_vertex]) {
                 if (priority[other_vertex] === undefined || priority[other_vertex] > adjacent.weight) {
                     priority[other_vertex] = adjacent.weight;
+                    edge_to_mst[other_vertex] = adjacent;
+                    if(pq.contains(other_vertex)) {
+                        pq.update(other_vertex);
+                    } else {
+                        pq.insert(other_vertex);
+                    }
                 }
-                pq.insert(other_vertex);
-                tmp_vertex = adjacent.either();
-                mst.addEdge(tmp_vertex, adjacent.other(tmp_vertex), adjacent.weight);
             }
         });
     }

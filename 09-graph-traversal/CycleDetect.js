@@ -51,6 +51,4 @@ module.exports = function Acyclic(graph) {
         return cycle;
     }
 
-    return acyclic;
-
 };

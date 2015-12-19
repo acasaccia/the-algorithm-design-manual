@@ -1,21 +1,35 @@
 /**
- * Generic priority function implementation. If no comparison function is passed in, then it behaves as a Minimum
- * Priority Queue comparing values with the "<" operator
+ * Indexed priority queue, other than the usual PQ operations allows to:
+ * - querying the PQ with an index to find out if that index is currently contained
+ * - updating the value associated with an index after insertion
  * @param comparison_function
  * @constructor
  */
-module.exports = function PQ(comparison_function) {
+module.exports = function IPQ(comparison_function) {
 
     var binary_heap = [null];
+    // value by index
+    var values = {};
+    // index by heap index
+    var pq = {};
+    // heap index by index
+    var qp = {};
 
     var compare = comparison_function || function(a, b) {
-        return a < b;
+            return a < b;
+        };
+
+    var _swap = function(a, b, cnt) {
+        var tmp = cnt[a];
+        cnt[a] = cnt[b];
+        cnt[b] = tmp;
     };
 
     var swap = function(key_1, key_2) {
-        var tmp = binary_heap[key_1];
-        binary_heap[key_1] = binary_heap[key_2];
-        binary_heap[key_2] = tmp;
+        _swap(key_1, key_2, binary_heap);
+        _swap(key_1, key_2, pq);
+        qp[pq[key_1]] = key_2;
+        qp[pq[key_2]] = key_1;
     };
 
     // restore consistency when a child has a smaller value than a parent
@@ -45,9 +59,13 @@ module.exports = function PQ(comparison_function) {
         }
     };
 
-    this.insert = function(value) {
+    this.insert = function(index, value) {
+        var heap_index = binary_heap.length;
         binary_heap.push(value);
-        swim(binary_heap.length - 1);
+        values[index] = value;
+        pq[heap_index] = index;
+        qp[index] = heap_index;
+        swim(heap_index);
     };
 
     this.get = function() {
@@ -73,6 +91,14 @@ module.exports = function PQ(comparison_function) {
 
     this.empty = function() {
         return (binary_heap.length - 1) === 0;
+    };
+
+    this.contains = function(index) {
+        return values[index] !== undefined;
+    };
+
+    this.update = function(index, value) {
+        swim(qp[index]);
     };
 
 };

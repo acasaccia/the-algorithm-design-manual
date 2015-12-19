@@ -1,7 +1,7 @@
 "use strict";
 
 var WeightedGraph = require("./WeightedGraph.js");
-var UnionFind = require("../03-data-structures/union-find/javascript/UnionFind.js");
+var UnionFind = require("../03-data-structures/UnionFind.js");
 
 module.exports = function Kruskal(graph) {
 

@@ -1,7 +1,7 @@
 "use strict";
 
 var WeightedGraph = require("./WeightedGraph.js");
-var PriorityQueue = require("../03-data-structures/priority-queue/javascript/PQ.js");
+var PriorityQueue = require("../03-data-structures/PriorityQueue.js");
 
 module.exports = function PrimLazy(graph) {
 
