@@ -1,6 +1,7 @@
 /**
  * Indexed priority queue, other than the usual PQ operations allows to:
- * - querying the PQ with an index to find out if that index is currently contained
+ * - inserting values with an associated index
+ * - querying the PQ with an index to find out if that index/value pair is currently in the priority queue
  * - updating the value associated with an index after insertion
  * @param comparison_function
  * @constructor
@@ -28,8 +29,8 @@ module.exports = function IPQ(comparison_function) {
     var swap = function(key_1, key_2) {
         _swap(key_1, key_2, binary_heap);
         _swap(key_1, key_2, pq);
-        qp[pq[key_1]] = key_2;
-        qp[pq[key_2]] = key_1;
+        qp[pq[key_1]] = key_1;
+        qp[pq[key_2]] = key_2;
     };
 
     // restore consistency when a child has a smaller value than a parent
@@ -69,20 +70,40 @@ module.exports = function IPQ(comparison_function) {
     };
 
     this.get = function() {
+
         if (binary_heap.length === 1) {
             throw new Error("Trying to get an item from empty queue");
+            return;
         }
-        var max = binary_heap[1];
+
         var last_item = binary_heap.pop();
+        var last_item_heap_index = binary_heap.length;
+        var last_item_index = pq[last_item_heap_index];
+
+        delete(pq[last_item_heap_index]);
+        delete(qp[last_item_index]);
+
+        var max_item, max_item_index;
+
         if (binary_heap.length > 1) {
+            max_item = binary_heap[1];
+            max_item_index = pq[1];
             binary_heap[1] = last_item;
+            delete(qp[pq[1]]);
+            delete(values[pq[1]]);
+            pq[1] = last_item_index;
+            qp[last_item_index] = 1;
             sink(1);
+        } else {
+            max_item = last_item;
+            max_item_index = last_item_index;
         }
-        return max;
+
+        return { id: max_item_index, value: max_item };
     };
 
     this.peek = function() {
-        return binary_heap[1];
+        return { id: pq[1], value: binary_heap[1] };
     };
 
     this.size = function() {
@@ -98,7 +119,13 @@ module.exports = function IPQ(comparison_function) {
     };
 
     this.update = function(index, value) {
-        swim(qp[index]);
+        var previous_value = binary_heap[qp[index]];
+        binary_heap[qp[index]] = value;
+        if (compare(previous_value, value)) {
+            sink(qp[index]);
+        } else {
+            swim(qp[index]);
+        }
     };
 
 };

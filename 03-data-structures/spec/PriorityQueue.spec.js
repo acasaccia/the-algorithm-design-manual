@@ -8,7 +8,7 @@ describe("PriorityQueue", function() {
         expect(pq.empty()).toBe(true);
     });
 
-    it("should have 3 items now", function() {
+    it("should allow me to insert items", function() {
         pq.insert(7);
         pq.insert(3);
         pq.insert(42);
