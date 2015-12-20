@@ -6,25 +6,30 @@ var IndexedPriorityQueue = require("../03-data-structures/IndexedPriorityQueue.j
 module.exports = function PrimEager(graph) {
 
     var vertex_count = graph.getVertexesCount();
+
     var mst = new WeightedGraph(vertex_count);
 
-    var priority = {};
-
-    var comparison_function = function(a, b) {
-        return priority[a] < priority[b];
-    };
-
-    var pq = new IndexedPriorityQueue(comparison_function);
+    var pq = new IndexedPriorityQueue();
 
     var mst_edges_count = vertex_count - 1;
-    var adjacents, current_vertex, other_vertex;
-    var in_mst = { 0: true }, edge_to_mst = {};
-    pq.insert(0);
+
+    var adjacents, current_vertex, other_vertex, new_edge;
+
+    var in_mst = {}, edge_to_mst = {}, priority = {};
+
+    pq.insert(0, 0);
 
     while (mst.getEdgesCount() < mst_edges_count) {
-        current_vertex = pq.get();
+
+        current_vertex = pq.get().id;
+
+        new_edge = edge_to_mst[current_vertex];
+        if (new_edge !== undefined) {
+            mst.addEdge(current_vertex, new_edge.other(current_vertex), new_edge.weight);
+        }
+
         in_mst[current_vertex] = true;
-        mst.addEdge(current_vertex, edge_to_mst[current_vertex].other(current_vertex), edge_to_mst[current_vertex].weight);
+
         adjacents = graph.getAdjacents(current_vertex);
         adjacents.forEach(function(adjacent){
             other_vertex = adjacent.other(current_vertex);
@@ -33,9 +38,9 @@ module.exports = function PrimEager(graph) {
                     priority[other_vertex] = adjacent.weight;
                     edge_to_mst[other_vertex] = adjacent;
                     if(pq.contains(other_vertex)) {
-                        pq.update(other_vertex);
+                        pq.update(other_vertex, adjacent.weight);
                     } else {
-                        pq.insert(other_vertex);
+                        pq.insert(other_vertex, adjacent.weight);
                     }
                 }
             }

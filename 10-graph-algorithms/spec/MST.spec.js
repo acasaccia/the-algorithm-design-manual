@@ -18,7 +18,7 @@ var expectations = function(graph, mst) {
         edges.forEach(function(edge){
             sum += edge.weight;
         });
-        expect(parseInt(sum*100)).toBe(parseInt(1.81*100));
+        expect(sum).toBeCloseTo(1.81, 2);
     });
 
     // look input/mst.jpg
@@ -30,18 +30,20 @@ var expectations = function(graph, mst) {
         [0, 2],
         [2, 3],
         [2, 6]
-    ].forEach(function(expected_edge){
-            it("should have edge " + expected_edge[0] + "-" + expected_edge[1], function() {
-                expect(edges.filter(function(edge){
-                    var v1 = edge.either();
-                    var v2 = edge.other(v1);
-                    return (
-                        (expected_edge[0] === v1 && expected_edge[1] === v2) ||
-                        (expected_edge[0] === v2 && expected_edge[1] === v1)
-                    )
-                }).length).toBe(1);
-            });
+    ];
+
+    expected_edges.forEach(function(expected_edge){
+        it("should have edge " + expected_edge[0] + "-" + expected_edge[1], function() {
+            expect(edges.filter(function(edge){
+                var v1 = edge.either();
+                var v2 = edge.other(v1);
+                return (
+                    (expected_edge[0] === v1 && expected_edge[1] === v2) ||
+                    (expected_edge[0] === v2 && expected_edge[1] === v1)
+                )
+            }).length).toBe(1);
         });
+    });
 };
 
 describe("MST computed with Kruskal", function() {
@@ -53,5 +55,5 @@ describe("MST computed with PrimLazy", function() {
 });
 
 describe("MST computed with PrimEager", function() {
-    //expectations(graph, PrimEager(graph));
+    expectations(graph, PrimEager(graph));
 });
