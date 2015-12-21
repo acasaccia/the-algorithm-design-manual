@@ -1,2 +1,1 @@
-language: javascript
-script: npm test
+language: node_js
