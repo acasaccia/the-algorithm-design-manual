@@ -3,7 +3,7 @@ var Kruskal = require("../Kruskal.js");
 var PrimLazy = require("../PrimLazy.js");
 var PrimEager = require("../PrimEager.js");
 
-var graph = new WeightedGraph(process.cwd() + "/10-graph-algorithms/input/input.txt");
+var graph = new WeightedGraph(process.cwd() + "/10-graph-algorithms/input/uwg.txt");
 
 var expectations = function(graph, mst) {
 
