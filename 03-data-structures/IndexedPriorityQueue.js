@@ -73,7 +73,6 @@ module.exports = function IPQ(comparison_function) {
 
         if (binary_heap.length === 1) {
             throw new Error("Trying to get an item from empty queue");
-            return;
         }
 
         var last_item = binary_heap.pop();
