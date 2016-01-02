@@ -6,15 +6,10 @@ var IndexedPriorityQueue = require("../03-data-structures/IndexedPriorityQueue.j
 module.exports = function PrimEager(graph) {
 
     var vertex_count = graph.getVertexesCount();
-
     var mst = new WeightedGraph(vertex_count);
-
     var pq = new IndexedPriorityQueue();
-
     var mst_edges_count = vertex_count - 1;
-
     var adjacents, current_vertex, other_vertex, new_edge;
-
     var in_mst = {}, edge_to_mst = {}, priority = {};
 
     pq.insert(0, 0);
