@@ -4,31 +4,52 @@ var IndexedPriorityQueue = require("../03-data-structures/IndexedPriorityQueue.j
 
 module.exports = function(graph, source) {
 
-    var edge_to = {};
-    var distance_to = {};
+    var edge_to_source = {};
+    var distance_to_source = {};
     var relaxed = {};
 
     var pq = new IndexedPriorityQueue();
 
     pq.insert(0, 0);
-    distance_to[source] = 0;
+    distance_to_source[source] = 0;
 
-    var relax = function(vertex) {
-        var adjacents = vertex.getAdjacents();
+    function relax(vertex) {
+        var adjacents = graph.getAdjacents(vertex);
+        var adjacent_to, candidate_distance;
         adjacents.forEach(function(adjacent){
-            if (distance_to[adjacent.to] > distance_to[vertex] + adjacent.weight) {
-                distance_to[adjacent.to] = distance_to[vertex] + adjacent.weight;
-                edge_to[adjacent.to] = vertex;
-                if (pq.contains(adjacent.to)) {
-                    pq.update(adjacent.to, adjacent.weight);
+            adjacent_to = adjacent.to();
+            candidate_distance = distance_to_source[vertex] + adjacent.weight;
+            if (distance_to_source[adjacent_to] === undefined || distance_to_source[adjacent_to] > candidate_distance) {
+                distance_to_source[adjacent_to] = candidate_distance;
+                edge_to_source[adjacent_to] = vertex;
+                if (pq.contains(adjacent_to)) {
+                    pq.update(adjacent_to, candidate_distance);
                 } else {
-                    pq.insert(adjacent.to, adjacent.weight);
+                    pq.insert(adjacent_to, candidate_distance);
                 }
             }
         });
         relaxed[vertex] = true;
     }
 
-    while (!pq.empty())
+    var next;
+
+    while (!pq.empty()) {
+        next = pq.get();
+        relax(next.id);
+    }
+
+    this.to = function to(node) {
+        var path = [node];
+        var tmp_node = node;
+        while (edge_to_source[tmp_node] !== undefined) {
+            path.unshift(edge_to_source[tmp_node]);
+            tmp_node = edge_to_source[tmp_node];
+        }
+        return {
+            distance: distance_to_source[node],
+            path: path
+        };
+    }
 
 };
