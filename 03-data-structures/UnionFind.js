@@ -1,9 +1,11 @@
 module.exports = function UnionFind(size) {
 
     var parent = [];
+    var tree_size = [];
 
     for (var i=0; i<size; i++) {
         parent[i] = i;
+        tree_size[i] = 1;
     }
 
     var root = function(a) {
@@ -18,7 +20,15 @@ module.exports = function UnionFind(size) {
     };
 
     this.union = function(a, b) {
-        parent[root(a)] = parent[root(b)];
+        var root_a = root(a);
+        var root_b = root(b);
+        if (size[root_a] < size[root_b]) {
+            parent[root_a] = parent[root_b];
+            tree_size[root_b] += tree_size[root_a];
+        } else {
+            parent[root_b] = parent[root_a];
+            tree_size[root_a] += tree_size[root_b];
+        }
     };
 
 };
