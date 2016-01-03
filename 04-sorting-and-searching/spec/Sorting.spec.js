@@ -5,7 +5,9 @@ var unsorted = fs.readFileSync(process.cwd() + "/04-sorting-and-searching/input/
 var sorted = fs.readFileSync(process.cwd() + "/04-sorting-and-searching/input/sorted_names.txt", "utf-8").split("\n").filter(Boolean);
 
 var algorithms = [
-    //"NaiveSort",
+    "NativeSort",
+    "SelectionSort",
+    "InsertionSort",
     "HeapSort"
 ];
 
@@ -13,7 +15,9 @@ algorithms.forEach(function(algorithm_name) {
     var algorithm = require("../" + algorithm_name + ".js");
     describe(algorithm_name, function() {
         it("should work", function(){
-            expect(algorithm(unsorted)).toEqual(sorted);
+            //console.time(algorithm_name);
+            expect(algorithm(unsorted.slice())).toEqual(sorted);
+            //console.timeEnd(algorithm_name);
         });
     });
 });
