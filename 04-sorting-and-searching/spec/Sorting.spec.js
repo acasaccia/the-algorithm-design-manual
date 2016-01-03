@@ -8,7 +8,8 @@ var algorithms = [
     "NativeSort",
     "SelectionSort",
     "InsertionSort",
-    "HeapSort"
+    "HeapSort",
+    "MergeSort"
 ];
 
 algorithms.forEach(function(algorithm_name) {
