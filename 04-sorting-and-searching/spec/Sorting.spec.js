@@ -9,7 +9,8 @@ var algorithms = [
     "SelectionSort",
     "InsertionSort",
     "HeapSort",
-    "MergeSort"
+    "MergeSort",
+    "QuickSort"
 ];
 
 algorithms.forEach(function(algorithm_name) {
