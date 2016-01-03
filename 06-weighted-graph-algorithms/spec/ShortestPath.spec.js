@@ -3,7 +3,7 @@
 var DirectedWeightedGraph = require("../DirectedWeightedGraph.js");
 var Dijkstra = require("../Dijkstra.js");
 
-var graph = new DirectedWeightedGraph(process.cwd() + "/10-graph-algorithms/input/dwg.txt");
+var graph = new DirectedWeightedGraph(process.cwd() + "/06-weighted-graph-traversal/input/dwg.txt");
 
 describe("Shortest path Dijkstra", function() {
 

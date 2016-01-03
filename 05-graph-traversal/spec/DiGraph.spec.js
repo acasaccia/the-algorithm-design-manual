@@ -1,7 +1,7 @@
 "use strict";
 
 var DiGraph = require("../DiGraph.js");
-var graph = new DiGraph(process.cwd() + "/09-graph-traversal/input/tinyDG.txt");
+var graph = new DiGraph(process.cwd() + "/05-graph-traversal/input/tinyDG.txt");
 
 describe("tinyDG.txt", function() {
 

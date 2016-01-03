@@ -2,7 +2,7 @@
 
 var Graph = require("../Graph.js");
 var Components = require("../Components.js");
-var graph = new Graph(process.cwd() + "/09-graph-traversal/input/undirected.txt");
+var graph = new Graph(process.cwd() + "/05-graph-traversal/input/undirected.txt");
 
 var components = new Components(graph);
 

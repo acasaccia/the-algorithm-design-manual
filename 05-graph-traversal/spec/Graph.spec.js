@@ -82,4 +82,4 @@ describe("Graph created programmatically", function () {
 
 expectations("Graph created programmatically:", graph);
 
-expectations("Graph created from file:", new Graph(process.cwd() + "/09-graph-traversal/input/undirected.txt"));
+expectations("Graph created from file:", new Graph(process.cwd() + "/05-graph-traversal/input/undirected.txt"));

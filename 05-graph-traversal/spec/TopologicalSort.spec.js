@@ -8,7 +8,7 @@ var assert = require("assert");
 
 describe("diacyclic.txt", function(){
 
-    var graph = new DiGraph(process.cwd() + "/09-graph-traversal/input/diacyclic.txt");
+    var graph = new DiGraph(process.cwd() + "/05-graph-traversal/input/diacyclic.txt");
 
     it("should not have cycles", function() {
         expect(CycleDetect(graph)).toBeUndefined();
@@ -22,7 +22,7 @@ describe("diacyclic.txt", function(){
 
 describe("tinyDAG.txt", function(){
 
-    var graph = new DiGraph(process.cwd() + "/09-graph-traversal/input/tinyDAG.txt");
+    var graph = new DiGraph(process.cwd() + "/05-graph-traversal/input/tinyDAG.txt");
 
     it("should not have cycles", function() {
         expect(CycleDetect(graph)).toBeUndefined();

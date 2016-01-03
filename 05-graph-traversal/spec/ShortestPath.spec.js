@@ -3,7 +3,7 @@
 var Graph = require("../Graph.js");
 var ShortestPath = require("../ShortestPath.js");
 
-var graph = new Graph(process.cwd() + "/09-graph-traversal/input/undirected.txt");
+var graph = new Graph(process.cwd() + "/05-graph-traversal/input/undirected.txt");
 var shortest_path = new ShortestPath(graph);
 
 describe("Shortest path on undirected.txt", function(){
