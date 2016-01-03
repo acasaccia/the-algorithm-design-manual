@@ -81,12 +81,12 @@ function initializeGraph(forbidden) {
 }
 
 function getNeighbour(string, digit, digit_index, rotation_direction) {
-    var rotated = mod((parseInt(digit) + rotation_direction), 10);
+    var rotated = mod((Math.floor(digit) + rotation_direction), 10);
     var neighbour = string.slice();
     neighbour = neighbour.split('');
     neighbour.splice(digit_index, 1, rotated);
     neighbour = neighbour.join('');
-    return parseInt(neighbour);
+    return Math.floor(neighbour);
 }
 
 function toPaddedString(n) {
@@ -103,7 +103,7 @@ function mod(n, m) {
 }
 
 function parseVertex(string) {
-    return parseInt(string.replace(new RegExp(' ', 'g'), ''));
+    return Math.floor(string.replace(new RegExp(' ', 'g'), ''));
 }
 
 function Graph(vertexes_count) {

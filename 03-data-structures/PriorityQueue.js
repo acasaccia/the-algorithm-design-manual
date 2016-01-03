@@ -20,11 +20,11 @@ module.exports = function PQ(comparison_function) {
 
     // restore consistency when a child has a smaller value than a parent
     var swim = function(key) {
-        var parent_key = parseInt(key/2);
+        var parent_key = Math.floor(key/2);
         while(key > 1 && compare(binary_heap[key], binary_heap[parent_key])) {
             swap(key, parent_key);
-            key = parseInt(key/2);
-            parent_key = parseInt(key/2);
+            key = Math.floor(key/2);
+            parent_key = Math.floor(key/2);
         }
     };
 
