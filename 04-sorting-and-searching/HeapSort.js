@@ -2,7 +2,7 @@
 
 var PriorityQueue = require("../03-data-structures/PriorityQueue.js");
 
-module.exports = function(array) {
+module.exports = function HeapSort(array) {
 
     var pq = new PriorityQueue();
 

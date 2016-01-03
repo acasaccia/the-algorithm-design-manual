@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = function(array) {
+module.exports = function SelectionSort(array) {
 
     var array_length = array.length;
 

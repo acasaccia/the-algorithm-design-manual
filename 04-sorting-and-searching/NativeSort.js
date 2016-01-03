@@ -1,5 +1,5 @@
 "use strict";
 
-module.exports = function(array) {
+module.exports = function NativeSort(array) {
     return array.sort();
 };
