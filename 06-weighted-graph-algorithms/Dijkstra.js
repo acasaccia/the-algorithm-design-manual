@@ -6,11 +6,14 @@ module.exports = function(graph, source) {
 
     var edge_to_source = {};
     var distance_to_source = {};
-    var relaxed = {};
-
     var pq = new IndexedPriorityQueue();
 
     pq.insert(0, 0);
+
+    var vertexes_count = graph.getVertexesCount();
+    for (var i=0; i<vertexes_count; i++) {
+        distance_to_source[i] = Number.POSITIVE_INFINITY;
+    }
     distance_to_source[source] = 0;
 
     function relax(vertex) {
@@ -19,7 +22,7 @@ module.exports = function(graph, source) {
         adjacents.forEach(function(adjacent){
             adjacent_to = adjacent.to();
             candidate_distance = distance_to_source[vertex] + adjacent.weight;
-            if (distance_to_source[adjacent_to] === undefined || distance_to_source[adjacent_to] > candidate_distance) {
+            if (distance_to_source[adjacent_to] > candidate_distance) {
                 distance_to_source[adjacent_to] = candidate_distance;
                 edge_to_source[adjacent_to] = vertex;
                 if (pq.contains(adjacent_to)) {
@@ -29,7 +32,6 @@ module.exports = function(graph, source) {
                 }
             }
         });
-        relaxed[vertex] = true;
     }
 
     var next;
