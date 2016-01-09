@@ -3,6 +3,14 @@
 var WeightedGraph = require("./WeightedGraph.js");
 var UnionFind = require("../03-data-structures/UnionFind.js");
 
+/**
+ * Kruskal algorithm
+ * Computes the Minimum Spanning Tree of a weighted graph
+ * Tree: directed graph, without cycles
+ * Spanning: covering all vertexes
+ * Minimum: of minimum weight
+ * Sort edges by weight, at each step add minimum weight edge to the MST if it doesn't introduce a cycle.
+ */
 module.exports = function Kruskal(graph) {
 
     var mst = new WeightedGraph(graph.getVertexesCount());

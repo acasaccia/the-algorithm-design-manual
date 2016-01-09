@@ -1,5 +1,8 @@
 "use strict";
 
+/**
+ * A weighted edge with notion of orientation (from a vertex to another)
+ */
 module.exports = function DirectedEdge(source, destination, weight) {
 
     this.source = source;

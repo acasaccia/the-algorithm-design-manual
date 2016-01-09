@@ -3,6 +3,15 @@
 var WeightedGraph = require("./WeightedGraph.js");
 var PriorityQueue = require("../03-data-structures/PriorityQueue.js");
 
+/**
+ * Prim algorithm, lazy implementation
+ * Computes the Minimum Spanning Tree of a weighted graph
+ * Initialize MST to a vertex of choice. Add to the priority queue the edges connected to the current MST.
+ * Select the edge with minimum weight, if exactly one vertex it connects is on the MST, add the other to the MST and
+ * add its adjacent edges to the priority queue.
+ * Lazy because upon inserting a new edge in the priority queue we don't check if the connected vertex is already in the
+ * Minimum spanning Tree, or already in the priority queue and we discard them after extracting it from the queue.
+ */
 module.exports = function PrimLazy(graph) {
 
     var vertex_count = graph.getVertexesCount();
