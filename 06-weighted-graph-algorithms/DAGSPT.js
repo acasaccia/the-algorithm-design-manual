@@ -23,24 +23,24 @@ module.exports = function(graph, source) {
 
     var topological_sort = TopologicalSort(graph);
 
-    function relax(vertex) {
-        var adjacents = graph.getAdjacents(vertex);
-        var adjacent_to, candidate_distance;
-        adjacents.forEach(function(adjacent){
-            adjacent_to = adjacent.to();
-            candidate_distance = distance_to_source[vertex] + adjacent.weight;
-            if (distance_to_source[adjacent_to] > candidate_distance) {
-                distance_to_source[adjacent_to] = candidate_distance;
-                edge_to_source[adjacent_to] = vertex;
-            }
-        });
+    function relax(edge) {
+        var from = edge.from();
+        var to = edge.to();
+        var candidate_distance = distance_to_source[from] + edge.weight;
+        if (distance_to_source[to] > candidate_distance) {
+            distance_to_source[to] = candidate_distance;
+            edge_to_source[to] = from;
+        }
     }
 
     var next;
 
     while (topological_sort.length) {
         next = topological_sort.shift();
-        relax(next);
+        var adjacents = graph.getAdjacents(next);
+        adjacents.forEach(function(adjacent) {
+            relax(adjacent);
+        });
     }
 
     this.to = function to(node) {
@@ -54,6 +54,6 @@ module.exports = function(graph, source) {
             distance: distance_to_source[node],
             path: path
         };
-    }
+    };
 
 };

@@ -27,29 +27,29 @@ module.exports = function(graph, source) {
     }
     distance_to_source[source] = 0;
 
-    function relax(vertex) {
-        var adjacents = graph.getAdjacents(vertex);
-        var adjacent_to, candidate_distance;
-        adjacents.forEach(function(adjacent){
-            adjacent_to = adjacent.to();
-            candidate_distance = distance_to_source[vertex] + adjacent.weight;
-            if (distance_to_source[adjacent_to] > candidate_distance) {
-                distance_to_source[adjacent_to] = candidate_distance;
-                edge_to_source[adjacent_to] = vertex;
-                if (pq.contains(adjacent_to)) {
-                    pq.update(adjacent_to, candidate_distance);
-                } else {
-                    pq.insert(adjacent_to, candidate_distance);
-                }
+    function relax(edge) {
+        var from = edge.from();
+        var to = edge.to();
+        var candidate_distance = distance_to_source[from] + edge.weight;
+        if (distance_to_source[to] > candidate_distance) {
+            distance_to_source[to] = candidate_distance;
+            edge_to_source[to] = from;
+            if (pq.contains(to)) {
+                pq.update(to, candidate_distance);
+            } else {
+                pq.insert(to, candidate_distance);
             }
-        });
+        }
     }
 
     var next;
 
     while (!pq.empty()) {
         next = pq.get();
-        relax(next.id);
+        var adjacents = graph.getAdjacents(next.id);
+        adjacents.forEach(function(adjacent) {
+            relax(adjacent);
+        });
     }
 
     this.to = function to(node) {
@@ -63,6 +63,6 @@ module.exports = function(graph, source) {
             distance: distance_to_source[node],
             path: path
         };
-    }
+    };
 
 };
