@@ -8,7 +8,7 @@ exports.load = function Tsp_load(filename) {
         .split("\n")
         .filter(Boolean);
     var line = lines.shift();
-    while (line !== "NODE_COORD_SECTION") {
+    while (line.indexOf("NODE_COORD_SECTION") === -1) {
         line = lines.shift();
     }
     lines.pop(); // remove "EOF"
