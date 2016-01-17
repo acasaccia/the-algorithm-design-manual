@@ -7,7 +7,10 @@ exports.load = function Tsp_load(filename) {
     var lines = fs.readFileSync(filename, "utf-8")
         .split("\n")
         .filter(Boolean);
-    lines.splice(0, 7); // remove header
+    var line = lines.shift();
+    while (line !== "NODE_COORD_SECTION") {
+        line = lines.shift();
+    }
     lines.pop(); // remove "EOF"
     var data = [];
     var current_line;
