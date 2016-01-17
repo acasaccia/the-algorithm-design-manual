@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Traveling Salesman Problem visualization</title>
+    <style>
+        html, body, #map {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #controls {
+            position: absolute;
+            top: 1em;
+            right: 1em;
+            z-index: 1;
+            width:  50%;
+        }
+        #data {
+            width: 50%;
+            float: right;
+        }
+        #start {
+            margin-left: 1em;
+            float: right;
+        }
+        #restart {
+            margin-left: 1em;
+            display: none;
+            float: right;
+        }
+        #pause {
+            margin-left: 1em;
+            float: right;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+</head>
+<body>
+    <div id="controls">
+        <button id="pause">Pause</button>
+        <button id="restart">Resume</button>
+        <button id="start">Start</button>
+        <input type="text" id="data"/>
+    </div>
+    <div id="map"></div>
+    <script>
+
+        var last_data_file = localStorage.getItem('last_data_file');
+        $("#data").val(last_data_file);
+
+        function initMap() {
+
+            // Create a map object and specify the DOM element for display.
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8
+            });
+
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode( { "address": "Ireland" }, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    map.setCenter(results[0].geometry.location);
+                } else {
+                    alert("Could not find location: " + location);
+                }
+            });
+
+            $("#start").click(function(){
+
+                var filename = $("#data").val();
+
+                $.ajax("output/" + filename, {
+                    success: function(data) {
+
+                        localStorage.setItem('last_data_file', filename);
+
+                        var coords = data.split("\n").filter(Boolean);
+                        var path;
+                        var coord;
+
+                        // remove header
+                        while (coord !== 'DATA_SECTION') {
+                            coord = coords.shift();
+                        }
+
+                        var bounds = new google.maps.LatLngBounds();
+
+                        for (var i=0; i<coords.length; i++) {
+                            coord = coords[i].split(" ").map(function(v) {
+                                return parseFloat(v);
+                            });
+                            coords[i] = new google.maps.LatLng({ lat: coord[0], lng: coord[1] });
+                        }
+
+                        for (var i=0; i<coords.length; i++) {
+                            bounds.extend(coords[i]);
+                        }
+
+                        map.fitBounds(bounds);
+
+                        var tspPath = new google.maps.Polyline({
+                            map: map,
+                            path: [],
+                            geodesic: false,
+                            strokeColor: '#FF0000',
+                            strokeOpacity: 1.0,
+                            strokeWeight: 2
+                        });
+
+                        var intervalId;
+
+                        $("#pause").click(function(){
+                            clearInterval(intervalId);
+                        });
+
+                        $("#restart").click(function(){
+                            intervalId = setInterval(function(){
+                                if (!coords.length) {
+                                    clearInterval(intervalId);
+                                    return;
+                                }
+                                coord = coords.shift();
+                                path = tspPath.getPath();
+                                path.push(coord);
+                                tspPath.setPath(path);
+                            }, 200);
+                        }).show().click();
+
+                        $("#start").hide();
+
+
+
+                    }
+                });
+            });
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMlwYEVjg7FRq2wetMSBff0vSOo-JSpjI&callback=initMap"></script>
+</body>
+</html>
