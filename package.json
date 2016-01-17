@@ -4,7 +4,9 @@
   "description": "Implementation of data structures and algorithms from \"The algorithms design manual\" by S. Skiena and \"Algorithms I\" and \"Algorithms II\" courses on https://www.coursera.org/ by R. Sedgewick and K. Wayne",
   "main": "",
   "dependencies": {
-    "jasmine": "~2.4.1"
+    "jasmine": "~2.4.1",
+    "moment": "^2.11.1",
+    "numeral": "^1.5.3"
   },
   "devDependencies": {
     "chance": "~0.8.0"
