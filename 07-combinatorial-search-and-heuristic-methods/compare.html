@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TSP heuristics comparison</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        iframe {
+            height: 100%;
+            width: 33%;
+            margin: 0;
+            padding: 0;
+        }
+        #compare {
+            font-size: 200%;
+            width: 200px;
+            position: absolute;
+            bottom: 1em;
+            left: calc(50% - 100px);
+            z-index: 1;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+</head>
+<body>
+    <button id="compare">Compare</button>
+    <iframe src="visualization.html" frameBorder="0"></iframe>
+    <iframe src="visualization.html" frameBorder="0"></iframe>
+    <iframe src="visualization.html" frameBorder="0"></iframe>
+    <script>
+        $("#compare").click(function(){
+            var contents = $("iframe").contents();
+            $(contents[0]).find("#data").val("qa194.tsp-rs-1601171809.txt");
+            $(contents[1]).find("#data").val("qa194.tsp-hc-1601171803.txt");
+            $(contents[2]).find("#data").val("qa194.tsp-sa-1601171753.txt");
+            $(contents).find("#start").click();
+        });
+    </script>
+</body>
+</html>

@@ -46,10 +46,6 @@
     </div>
     <div id="map"></div>
     <script>
-
-        var last_data_file = localStorage.getItem('last_data_file');
-        $("#data").val(last_data_file);
-
         function initMap() {
 
             // Create a map object and specify the DOM element for display.
@@ -72,8 +68,6 @@
 
                 $.ajax("output/" + filename, {
                     success: function(data) {
-
-                        localStorage.setItem('last_data_file', filename);
 
                         var coords = data.split("\n").filter(Boolean);
                         var path;
@@ -128,8 +122,6 @@
                         }).show().click();
 
                         $("#start").hide();
-
-
 
                     }
                 });
