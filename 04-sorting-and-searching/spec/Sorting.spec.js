@@ -1,8 +1,10 @@
 "use strict";
 
 var fs = require("fs");
-var unsorted = fs.readFileSync(process.cwd() + "/04-sorting-and-searching/input/names.txt", "utf-8").split("\n").filter(Boolean);
-var sorted = fs.readFileSync(process.cwd() + "/04-sorting-and-searching/input/sorted_names.txt", "utf-8").split("\n").filter(Boolean);
+var unsorted = fs.readFileSync(process.cwd() + "/04-sorting-and-searching/input/names.txt", "utf-8")
+    .replace(/[\r]+/g, "").split("\n").filter(Boolean);
+var sorted = fs.readFileSync(process.cwd() + "/04-sorting-and-searching/input/sorted_names.txt", "utf-8")
+    .replace(/[\r]+/g, "").split("\n").filter(Boolean);
 
 var algorithms = [
     "NativeSort",
