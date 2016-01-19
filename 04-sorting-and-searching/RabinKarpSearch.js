@@ -7,7 +7,7 @@ module.exports = function RabinKarpSearch(substring, string) {
     for (var i=0; i<limit; i++) {
         if (i > 0) {
             candidate_hash -= rabin_karp(string, i-1, i);
-            candidate_hash += rabin_karp(string, i + substring.length, substring.length + 1);
+            candidate_hash += rabin_karp(string, i + substring.length, i + substring.length + 1);
         } else {
             candidate_hash = rabin_karp(string, 0, substring.length);
         }
