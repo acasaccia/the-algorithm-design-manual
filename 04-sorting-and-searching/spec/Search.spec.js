@@ -30,6 +30,7 @@ algorithms.forEach(function(algorithm_name) {
             needles_not_in_haystack.forEach(function(needle){
                 expect(algorithm(needle.split(""), haystack)).toBe(false);
             });
+            console.log("");
             console.timeEnd(algorithm_name);
         });
     });

@@ -19,9 +19,10 @@ algorithms.forEach(function(algorithm_name) {
     var algorithm = require("../" + algorithm_name + ".js");
     describe(algorithm_name, function() {
         it("should work", function(){
-            //console.time(algorithm_name);
+            console.time(algorithm_name);
             expect(algorithm(unsorted.slice())).toEqual(sorted);
-            //console.timeEnd(algorithm_name);
+            console.log("");
+            console.timeEnd(algorithm_name);
         });
     });
 });
