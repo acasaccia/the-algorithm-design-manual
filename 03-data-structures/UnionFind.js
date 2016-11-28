@@ -22,7 +22,7 @@ module.exports = function UnionFind(size) {
     this.union = function(a, b) {
         var root_a = root(a);
         var root_b = root(b);
-        if (size[root_a] < size[root_b]) {
+        if (tree_size[root_a] < tree_size[root_b]) {
             parent[root_a] = parent[root_b];
             tree_size[root_b] += tree_size[root_a];
         } else {
