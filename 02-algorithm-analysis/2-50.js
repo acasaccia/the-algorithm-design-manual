@@ -5,9 +5,9 @@ var n=100;
 var ramanujam = [];
 var candidate;
 
-for (var a=0; a<n; a++)
-    for (var b=0; b<n; b++)
-        for (var c=0; c<n; c++)
+for (var a=0; a<n; a++) {
+    for (var b=0; b<n; b++) {
+        for (var c=0; c<n; c++) {
             for (var d=0; d<n; d++) {
                 if (a != b && b != c && a != c && b != d && c != d && a!= d) {
                     candidate = Math.pow(a,3) + Math.pow(b,3);
@@ -18,5 +18,7 @@ for (var a=0; a<n; a++)
                     }
                 }
             }
-
+        }
+    }
+}
 console.log(ramanujam);
